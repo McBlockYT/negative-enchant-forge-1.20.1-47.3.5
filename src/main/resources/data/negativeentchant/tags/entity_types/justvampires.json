@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#negativeentchant:bloodtype_normal",
+    "#negativeentchant:bloodtype_insect",
+    "#negativeentchant:bloodtype_slime"
+  ]
+}
