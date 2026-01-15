@@ -59,7 +59,7 @@ public class NegativeEntchant {
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(ModItems.BLOOD_SYRINGE);
+            //event.accept(ModItems.BLOOD_SYRINGE);
         }
     }
 

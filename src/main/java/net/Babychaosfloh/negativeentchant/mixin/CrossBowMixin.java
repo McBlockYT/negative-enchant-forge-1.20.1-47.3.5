@@ -4,12 +4,10 @@ package net.Babychaosfloh.negativeentchant.mixin;
 import net.Babychaosfloh.negativeentchant.item.ModEnchantments;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArrowItem;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,13 +18,13 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(CrossbowItem.class)
 public class CrossBowMixin {
     @Unique
-    private static int multishotLvl;
+    private static int negativeMultishotLvl;
     @Unique
-    private static int infinityLvl;
+    private static int negativeInfinityLvl;
 
     /**
      * @author Babychaosfloh_HD
-     * @reason Replace vanilla projectile loading logic
+     * @reason Adding negative enchantments
      */
     @Overwrite
     public static boolean tryLoadProjectiles(LivingEntity pShooter, ItemStack pCrossbowStack) {
@@ -62,24 +60,37 @@ public class CrossBowMixin {
         } else {
             boolean flag = pIsCreative && pAmmoStack.getItem() instanceof ArrowItem;
             ItemStack itemstack;
-            multishotLvl = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.NEGATIVE_MULTISHOT.get(), pShooter);
-            infinityLvl = EnchantmentHelper.getEnchantmentLevel(ModEnchantments.NEGATIVE_INFINITY.get(), pShooter);
+            negativeMultishotLvl = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.NEGATIVE_MULTISHOT.get(), pCrossbowStack);
+            negativeInfinityLvl = EnchantmentHelper.getItemEnchantmentLevel(ModEnchantments.NEGATIVE_INFINITY.get(), pCrossbowStack);
+
+            pShooter.sendSystemMessage(Component.literal("negMult "+negativeMultishotLvl));
+            pShooter.sendSystemMessage(Component.literal("negInf "+negativeInfinityLvl));
 
             if (!flag && !pIsCreative && !pHasAmmo) {
                 int splitter = 0;
-                if (infinityLvl > 0) {
-                    splitter = infinityLvl;
-                } else if (multishotLvl > 0) {
-                    splitter = multishotLvl;
+                if (negativeInfinityLvl > 0) {
+                    splitter = negativeInfinityLvl;
+                } else if (negativeMultishotLvl > 0) {
+                    splitter = negativeMultishotLvl * 3;
                 } else {
                     splitter = 1;
                 }
 
+                /*if (isStackBig(pAmmoStack, splitter, (Player) pShooter) != null) {
+                    ItemStack itemStack3 = isStackBig(pAmmoStack, splitter, (Player) pShooter);
+                    ItemStack itemStack4 = pAmmoStack.copy();
+                    itemstack = pAmmoStack.split(splitter);
+                    itemstack.setCount(itemstack.getCount() + itemStack3.getCount());
+                    isStackBig(pAmmoStack, splitter, (Player) pShooter).split(itemStack4.getCount());
+                } else {
+                }
+                 */
                 itemstack = pAmmoStack.split(splitter);
+
                 if (pAmmoStack.isEmpty() && pShooter instanceof Player) {
                     ((Player)pShooter).getInventory().removeItem(pAmmoStack);
                 }
-                if (infinityLvl > 0) {
+                if (negativeInfinityLvl > 0) {
                     setCharged(pCrossbowStack, false);
                     removeChargedProjectile(pCrossbowStack, itemstack);
                 } else {
@@ -92,6 +103,21 @@ public class CrossBowMixin {
         }
 
     }
+/*
+    @Unique
+    private static ItemStack isStackBig(ItemStack itemStack, int count, Player player) {
+        if (itemStack.getCount() < count) {
+            for (int i = 0; i < 36; i++) {
+                ItemStack itemStack2 = player.getInventory().getItem(i);
+                if (itemStack2.getItem() instanceof ArrowItem) {
+                    return itemStack2;
+                }
+            }
+        }
+        return null;
+    }
+
+ */
 
     @Unique
     private static void setCharged(ItemStack pCrossbowStack, boolean pIsCharged) {

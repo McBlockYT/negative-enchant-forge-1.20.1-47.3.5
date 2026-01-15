@@ -3,28 +3,34 @@ package net.Babychaosfloh.negativeentchant.config;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NegativeEntchantCommonConfigs {
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     public static final ForgeConfigSpec SPEC;
 
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> BLOOD_TYPE_ENTITY_TAGS;
+    public static final Map<String, ForgeConfigSpec.BooleanValue> ENCHANTMENTS = new HashMap<>();
 
 
     static {
-        BUILDER.push("Common configs for JustVampires");
+        BUILDER.push("Enchantments")
+                .comment("Whether a reversed enchantment should be registered or not.");
 
-        BLOOD_TYPE_ENTITY_TAGS = BUILDER.defineList(
-                "BLOOD_TYPE_ENTITY_TAGS", Arrays.asList(
-                        "justvampires:bloodtype_normal:0xDC143C",
-                        "justvampires:bloodtype_insect:0xF4E04D",
-                        //"justvampires:bloodtype_slime:0xFF0000"
-                        "justvampires:bloodtype_zombie:0x9c3c16"
-                ), // Standart values
-                o -> o instanceof String // validating
-        );
+        // Example entries
+        ENCHANTMENTS.put("valuename", BUILDER
+                .comment("Enable valuename enchantment")
+                .define("valuename", true));
+
+        ENCHANTMENTS.put("valuenextname", BUILDER
+                .comment("Enable valuenextname enchantment")
+                .define("valuenextname", false));
+
+        ENCHANTMENTS.put("anotherone", BUILDER
+                .comment("Enable anotherone enchantment")
+                .define("anotherone", true));
 
         BUILDER.pop();
         SPEC = BUILDER.build();

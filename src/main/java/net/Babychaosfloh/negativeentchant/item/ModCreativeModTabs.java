@@ -11,15 +11,17 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
+import static net.minecraft.world.item.Items.TNT;
+
 public class ModCreativeModTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, NegativeEntchant.MOD_ID);
 
     public static final RegistryObject<CreativeModeTab> JV_BLOOD = CREATIVE_MODE_TABS.register("blood_items",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BLOOD_SYRINGE.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(TNT))
                     .title(Component.translatable("justvampires.creativetab.blood"))
                     .displayItems((pParameters, pOutput) -> {
-                        pOutput.accept(ModItems.BLOOD_SYRINGE.get());
+                        //pOutput.accept(ModItems.BLOOD_SYRINGE.get());
 
                         pOutput.accept(Items.GOLD_INGOT);
                         pOutput.accept(Items.IRON_INGOT);

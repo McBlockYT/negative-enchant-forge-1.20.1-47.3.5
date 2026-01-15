@@ -6,7 +6,7 @@ import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 
-public class    NegativeKnockbackEnchantment extends Enchantment {
+public class NegativeKnockbackEnchantment extends Enchantment {
     public NegativeKnockbackEnchantment(Rarity pRarity, EquipmentSlot... pApplicableSlots) {
         super(pRarity, EnchantmentCategory.WEAPON, pApplicableSlots);
     }

@@ -12,12 +12,7 @@ public class ColorHandler {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        Minecraft.getInstance().getItemColors().register((stack, tintIndex) -> {
-            if (tintIndex == 0 && stack.hasTag() && stack.getTag().contains("CustomColor")) {
-                return stack.getTag().getInt("CustomColor");
-            }
-            return 0xFFFFFF; // Standardfarbe
-        }, ModItems.BLOOD_SYRINGE.get());
+
     }
 }
 
