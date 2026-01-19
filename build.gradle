@@ -174,7 +174,7 @@ tasks.named('processResources', ProcessResources).configure {
 mixin {
     // MixinGradle Settings
     add sourceSets.main, 'mixins.mymod.refmap.json'
-    config 'mixins.negativeenchant.json'
+    config 'mixins.reversedenchantments.json'
 
     debug.verbose = true
     debug.export = true
